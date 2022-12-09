@@ -6,13 +6,13 @@ module "iot_hub" {
   client_config       = local.client_config
   location            = can(local.global_settings.regions[each.value.region]) ? local.global_settings.regions[each.value.region] : local.combined_objects_resource_groups[try(each.value.resource_group.lz_key, local.client_config.landingzone_key)][try(each.value.resource_group.key, each.value.resource_group_key)].location
   resource_group_name = can(each.value.resource_group.name) || can(each.value.resource_group_name) ? try(each.value.resource_group.name, each.value.resource_group_name) : local.combined_objects_resource_groups[try(each.value.resource_group.lz_key, local.client_config.landingzone_key)][try(each.value.resource_group_key, each.value.resource_group.key)].name
-  settings = each.value
+  settings            = each.value
 
   remote_objects = {
-    resource_group        = local.combined_objects_resource_groups
-    managed_identities    = local.combined_objects_managed_identities
-    event_hub_auth_rules  = local.combined_objects_event_hub_auth_rules
-    storage_accounts      = local.combined_objects_storage_accounts
+    resource_group       = local.combined_objects_resource_groups
+    managed_identities   = local.combined_objects_managed_identities
+    event_hub_auth_rules = local.combined_objects_event_hub_auth_rules
+    storage_accounts     = local.combined_objects_storage_accounts
   }
 }
 
@@ -28,7 +28,7 @@ module "iot_hub_consumer_groups" {
   settings            = each.value
   iothub_name         = module.iot_hub[each.value.iot_hub_key].id
   resource_group_name = can(each.value.resource_group.name) || can(each.value.resource_group_name) ? try(each.value.resource_group.name, each.value.resource_group_name) : local.combined_objects_resource_groups[try(each.value.resource_group.lz_key, local.client_config.landingzone_key)][try(each.value.resource_group_key, each.value.resource_group.key)].name
-  
+
   depends_on = [
     module.iot_hub
   ]
@@ -47,7 +47,7 @@ output "iot_hub_consumer_groups" {
 #   settings            = each.value
 #   iothub_name         = module.iot_hub[each.value.iot_hub_key].id
 #   resource_group_name = can(each.value.resource_group.name) || can(each.value.resource_group_name) ? try(each.value.resource_group.name, each.value.resource_group_name) : local.combined_objects_resource_groups[try(each.value.resource_group.lz_key, local.client_config.landingzone_key)][try(each.value.resource_group_key, each.value.resource_group.key)].name
-  
+
 #   depends_on = [
 #     module.iot_hub
 #   ]
@@ -67,7 +67,7 @@ module "iot_hub_dps" {
   settings            = each.value
 
   remote_objects = {
-    resource_group        = local.combined_objects_resource_groups
+    resource_group = local.combined_objects_resource_groups
   }
 }
 
@@ -83,7 +83,7 @@ module "iot_dps_certificate" {
   global_settings     = local.global_settings
   iot_dps_name        = module.iot_hub_dps[each.value.iot_dps_key].id
   resource_group_name = can(each.value.resource_group.name) || can(each.value.resource_group_name) ? try(each.value.resource_group.name, each.value.resource_group_name) : local.combined_objects_resource_groups[try(each.value.resource_group.lz_key, local.client_config.landingzone_key)][try(each.value.resource_group_key, each.value.resource_group.key)].name
-  
+
   depends_on = [
     module.iot_hub_dps
   ]
@@ -101,7 +101,7 @@ module "iot_dps_shared_access_policy" {
   settings            = each.value
   iot_dps_name        = module.iot_hub_dps[each.value.iot_dps_key].id
   resource_group_name = can(each.value.resource_group.name) || can(each.value.resource_group_name) ? try(each.value.resource_group.name, each.value.resource_group_name) : local.combined_objects_resource_groups[try(each.value.resource_group.lz_key, local.client_config.landingzone_key)][try(each.value.resource_group_key, each.value.resource_group.key)].name
-  
+
   depends_on = [
     module.iot_hub_dps
   ]
@@ -119,7 +119,7 @@ module "iot_hub_shared_access_policy" {
   settings            = each.value
   iot_hub_name        = module.iot_hub[each.value.iot_hub_key].id
   resource_group_name = can(each.value.resource_group.name) || can(each.value.resource_group_name) ? try(each.value.resource_group.name, each.value.resource_group_name) : local.combined_objects_resource_groups[try(each.value.resource_group.lz_key, local.client_config.landingzone_key)][try(each.value.resource_group_key, each.value.resource_group.key)].name
-  
+
   depends_on = [
     module.iot_hub
   ]
@@ -147,9 +147,9 @@ module "iot_security_solution" {
   source   = "./modules/iot/security/security_solution"
   for_each = try(local.iot.iot_security_solution, {})
 
-  global_settings     = local.global_settings
-  settings            = each.value
-  iothub_ids          = try(
+  global_settings = local.global_settings
+  settings        = each.value
+  iothub_ids = try(
     each.value.iothub_ids,
     [
       for iothub_id in try(each.value.iothub_keys, {}) : module.iot_hub[iothub_id].id
@@ -158,7 +158,7 @@ module "iot_security_solution" {
 
   location            = can(local.global_settings.regions[each.value.region]) ? local.global_settings.regions[each.value.region] : local.combined_objects_resource_groups[try(each.value.resource_group.lz_key, local.client_config.landingzone_key)][try(each.value.resource_group.key, each.value.resource_group_key)].location
   resource_group_name = can(each.value.resource_group.name) || can(each.value.resource_group_name) ? try(each.value.resource_group.name, each.value.resource_group_name) : local.combined_objects_resource_groups[try(each.value.resource_group.lz_key, local.client_config.landingzone_key)][try(each.value.resource_group_key, each.value.resource_group.key)].name
-  
+
   depends_on = [
     module.iot_hub
   ]
@@ -172,10 +172,10 @@ module "iot_security_device_group" {
   source   = "./modules/iot/security/device_group"
   for_each = try(local.iot.iot_security_device_group, {})
 
-  global_settings     = local.global_settings
-  settings            = each.value
-  iothub_id           = module.iot_hub[each.value.iot_hub_key].id
-  
+  global_settings = local.global_settings
+  settings        = each.value
+  iothub_id       = module.iot_hub[each.value.iot_hub_key].id
+
   depends_on = [
     module.iot_hub,
     module.iot_security_solution
