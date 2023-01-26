@@ -412,6 +412,3 @@ variable "iot" {
 variable "resource_provider_registration" {
   default = {}
 }
-variable "resource_provider_registration" {
-  default = {}
-}
