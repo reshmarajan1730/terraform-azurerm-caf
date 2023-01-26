@@ -35,7 +35,6 @@ resource "null_resource" "set_probe" {
 }
 
 resource "null_resource" "delete_probe" {
-  
   for_each = try(var.settings.probes, {})
 
   triggers = {

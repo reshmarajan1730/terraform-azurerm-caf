@@ -396,6 +396,9 @@ variable "log_analytics" {
 variable "logic_app_workflow" {
   default = {}
 }
+variable "logic_app_standard" {
+  default = {}
+}
 variable "logic_app_integration_account" {
   default = {}
 }
