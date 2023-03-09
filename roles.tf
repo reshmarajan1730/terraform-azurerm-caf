@@ -128,6 +128,8 @@ locals {
     dns_zones                                  = local.combined_objects_dns_zones
     function_apps                              = local.combined_objects_function_apps
     event_hub_namespaces                       = local.combined_objects_event_hub_namespaces
+    iot_hub                                    = local.combined_objects_iot_hub
+    iot_hub_dps                                = local.combined_objects_iot_hub_dps
     keyvaults                                  = local.combined_objects_keyvaults
     kusto_clusters                             = local.combined_objects_kusto_clusters
     logged_in                                  = local.logged_in
@@ -154,6 +156,10 @@ locals {
     subscriptions                              = local.combined_objects_subscriptions
     synapse_workspaces                         = local.combined_objects_synapse_workspaces
     virtual_subnets                            = local.combined_objects_virtual_subnets
+    wvd_application_groups                     = local.combined_objects_wvd_application_groups
+    wvd_applications                           = local.combined_objects_wvd_applications
+    wvd_host_pools                             = local.combined_objects_wvd_host_pools
+    wvd_workspaces                             = local.combined_objects_wvd_workspaces
     log_analytics                              = local.current_objects_log_analytics
   }
 
