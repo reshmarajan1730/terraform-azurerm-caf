@@ -12,12 +12,35 @@ resource_groups = {
   }
 }
 
+managed_identities = {
+  hub_usermsi = {
+    name               = "hub_usermsi"
+    resource_group_key = "wps_examples"
+  }
+}
+
 keyvaults = {
   kv_client = {
     name                = "testkv"
-    resource_group_key  = "test"
+    resource_group_key  = "wps_examples"
     sku_name            = "standard"
     soft_delete_enabled = true
+
+    creation_policies = {
+      # Required for the ci pipeline principal_id to update KV policies set in keyvault_access_policies
+      logged_in_user = {
+        secret_permissions = ["Set", "Get", "List", "Delete", "Purge", "Recover"]
+      }
+    }
+  }
+}
+
+keyvault_access_policies = {
+  kv_client = {
+    hub_usermsi = {
+      managed_identity_key = "hub_usermsi"
+      secret_permissions   = ["Set", "Get", "List", "Delete", "Purge"]
+    }
   }
 }
 
@@ -30,7 +53,8 @@ web_pubsubs = {
     }
     region = "region1"
     identity = {
-      type = "SystemAssigned"
+      type                  = "UserAssigned"
+      managed_identity_keys = ["hub_usermsi"]
     }
     # To store connection string values in a Keyvault
     keyvaults = {

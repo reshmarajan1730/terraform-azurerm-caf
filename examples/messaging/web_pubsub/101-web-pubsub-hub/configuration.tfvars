@@ -38,16 +38,16 @@ web_pubsub_hubs = {
     }
     anonymous_connections_enabled = true
   }
-  hub2 = {
-    name          = "hub2"
-    web_pubsub_id = "/subscriptions/0000-0000-0000-0000-0000/resourceGroups/myPubSubRg/providers/Microsoft.SignalRService/WebPubSub/myPubSub1"
-    event_handler = {
-      ev1 = {
-        url_template       = "https://test.com/api/{hub}/{event}"
-        user_event_pattern = "event1, event2"
-        system_events      = ["connected"]
-      }
-    }
-    anonymous_connections_enabled = true
-  }
+  # hub2 = {
+  #   name          = "hub2"
+  #   web_pubsub_id = "/subscriptions/0000-0000-0000-0000-0000/resourceGroups/myPubSubRg/providers/Microsoft.SignalRService/WebPubSub/myPubSub1"
+  #   event_handler = {
+  #     ev1 = {
+  #       url_template       = "https://test.com/api/{hub}/{event}"
+  #       user_event_pattern = "event1, event2"
+  #       system_events      = ["connected"]
+  #     }
+  #   }
+  #   anonymous_connections_enabled = true
+  # }
 }

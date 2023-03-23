@@ -14,10 +14,10 @@ resource "azurecaf_name" "app_service" {
 
 resource "azurerm_app_service" "app_service" {
   name                = azurecaf_name.app_service.result
-  location            = var.location
-  resource_group_name = var.resource_group_name
+  location            = local.location
+  resource_group_name = local.resource_group_name
   app_service_plan_id = var.app_service_plan_id
-  tags                = local.tags
+  tags                = merge(local.tags, try(var.settings.tags, {}))
 
   client_affinity_enabled = lookup(var.settings, "client_affinity_enabled", null)
   client_cert_enabled     = lookup(var.settings, "client_cert_enabled", null)
@@ -280,6 +280,24 @@ resource "azurerm_app_service" "app_service" {
       site_config[0].scm_type
     ]
   }
+}
+
+resource "azurerm_template_deployment" "site_config" {
+  depends_on = [azurerm_app_service.app_service]
+
+  count = lookup(var.settings, "numberOfWorkers", {}) != {} ? 1 : 0
+
+  name                = azurecaf_name.app_service.result
+  resource_group_name = local.resource_group_name
+
+  template_body = file(local.arm_filename)
+
+  parameters = {
+    "numberOfWorkers" = tonumber(var.settings.numberOfWorkers)
+    "name"            = azurecaf_name.app_service.result
+  }
+
+  deployment_mode = "Incremental"
 }
 
 resource "azurerm_app_service_custom_hostname_binding" "app_service" {
