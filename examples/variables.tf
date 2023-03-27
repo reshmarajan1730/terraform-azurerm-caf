@@ -1053,3 +1053,6 @@ variable "web_pubsubs" {
 variable "web_pubsub_hubs" {
   default = {}
 }
+variable "aadb2c_directory" {
+  default = {}
+}
