@@ -1,5 +1,5 @@
 
-resource "azurecaf_name" "hub" {
+data "azurecaf_name" "hub" {
   name          = var.settings.name
   resource_type = "azurerm_web_pubsub_hub"
   prefixes      = var.global_settings.prefixes
@@ -10,7 +10,7 @@ resource "azurecaf_name" "hub" {
 }
 
 resource "azurerm_web_pubsub_hub" "hub" {
-  name          = azurecaf_name.hub.result
+  name          = data.azurecaf_name.hub.result
   web_pubsub_id = can(var.settings.web_pubsub_id) ? var.settings.web_pubsub_id : var.remote_objects.web_pubsubs[try(var.settings.web_pubsub.lz_key, var.client_config.landingzone_key)][var.settings.web_pubsub.key].id
 
   dynamic "event_handler" {
