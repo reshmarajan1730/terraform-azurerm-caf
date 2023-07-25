@@ -180,6 +180,11 @@ variable "user_type" {
   default     = {}
 }
 
+## Azure Maps
+variable "azure_maps" {
+  description = "Configuration object - Azure map "
+  default     = {}
+}
 ## Azure AD
 variable "azuread" {
   description = "Configuration object - Azure Active Directory resources"

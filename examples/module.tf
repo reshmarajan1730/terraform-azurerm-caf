@@ -377,6 +377,9 @@ module "example" {
   purview = {
     purview_accounts = var.purview_accounts
   }
+  azure_maps = {
+    azure_maps = var.azure_maps
+  }
 
   iot = {
     digital_twins_instances             = var.digital_twins_instances
