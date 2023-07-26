@@ -181,7 +181,7 @@ variable "user_type" {
 }
 
 ## Azure Maps
-variable "azure_maps" {
+variable "maps" {
   description = "Configuration object - Azure map "
   default     = {}
 }

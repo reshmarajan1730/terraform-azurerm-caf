@@ -377,8 +377,8 @@ module "example" {
   purview = {
     purview_accounts = var.purview_accounts
   }
-  azure_maps = {
-    azure_maps = var.azure_maps
+  maps = {
+    maps_account = var.maps_account
   }
 
   iot = {

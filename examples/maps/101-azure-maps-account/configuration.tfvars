@@ -7,14 +7,14 @@ global_settings = {
 
 resource_groups = {
   test = {
-    name = "rg1"
+    name = "rg-maps-test"
   }
 }
 
-azure_maps = {
+maps_account = {
   map1 = {
     name                      = "map1"
-    resource_group_name       = "rg1"
-    sku_name                  = "s0"
+    resource_group_key        = "test"
+    sku_name                  = "S0"
   }
 }

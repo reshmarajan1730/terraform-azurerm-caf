@@ -9,6 +9,10 @@ variable "resource_group_name" {
   description = "(Required) The name of the Resource Group in which the Azure Maps Account should exist. Changing this forces a new resource to be created."
   type        = string
 }
-variable "azure_maps" {
+variable "maps_account" {
   default     = {}
 }
+variable "maps" {
+  default     = {}
+}
+variable "settings" {}
